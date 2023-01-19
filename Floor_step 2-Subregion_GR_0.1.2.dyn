@@ -1,0 +1,287 @@
+{
+  "Uuid": "9aebff0d-d4af-4031-a7e2-a7798e6adb7e",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Floor_step 2-Subregion_GR_0.1.2",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\n\r\nclr.AddReference('RevitAPI')\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\nimport System.Collections.Generic\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('RevitNodes')\r\nimport Revit\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference('RevitServices')\r\nfrom RevitServices.Transactions import TransactionManager\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Get input variables\r\nsubregions = IN[0]\r\nhost = UnwrapElement(IN[1])\r\n\r\n# Init variables\r\ncurveLoops = []\r\ncreatedSubRegions = []\r\nerror = []\r\n\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Get groups of curves (exploded polycurves!) and creates per group a SubRegion\r\nfor i in subregions:\r\n\t# Init CurveLoop for every curve group\r\n\tx = CurveLoop()\r\n\t\r\n\t# Iterate the seperate curves -> convert type to Revit Type -> add to CurveLoop\r\n\tfor j in i:\r\n\t\tx.Append(j.ToRevitType())\r\n\tcurveLoops.append(x)\r\n\t\r\n\t# Add layer to list\r\n\ty = [x]\r\n\tyI = List[CurveLoop](y)\r\n\t\r\n\tif SiteSubRegion.IsValidBoundary(yI):\r\n\t\t# Create SubRegion out of the CurveLoop group and add its to 'createdSubregions'\r\n\t\tnewSubRegion = SiteSubRegion.Create(doc, yI, host.Id)\r\n\t\tcreatedSubRegions.append(newSubRegion)\r\n\t\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\n# Output\r\nOUT = createdSubRegions",
+      "VariableInputPorts": true,
+      "Id": "14ae4221ab664e2592340567e3707f17",
+      "Inputs": [
+        {
+          "Id": "2eca36a4542743f5ac2591944c188803",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "03609fd5e67b4e1c95a7f9d5c2f229ce",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "487ddd1e9d89485ca2440cd1c351cb84",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "90910584-65a8-43cb-8ece-3dea2e96db06-00048452"
+      ],
+      "Id": "ea5565b68dda4e40a51613788d18c0f4",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "22341d1f73a847ccb7c07249bbae9538",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "90910584-65a8-43cb-8ece-3dea2e96db06-0004849b"
+      ],
+      "Id": "7d06d20a28f24d56a0b3b13bf92936b2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4151672d6bda4654ba251482ee656a4b",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "94050ce4-e59f-4377-933d-16326991c630",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "74ffbe8b8f34401cbf72d7f440729368",
+      "Inputs": [
+        {
+          "Id": "f7f82748488d40028b610466f17ea60f",
+          "Name": "element",
+          "Description": "var[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3829fb0028fd4049b60726c7c01bf9c2",
+          "Name": "fetchModelCurves",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "2089472b13f64daf941732bbedaa7e2d",
+          "Name": "refresh",
+          "Description": "bool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d68af6d7573143f4837f307c1807eaaa",
+          "Name": "curves",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5fd155233e944637ab1ae4c0d67c17e7",
+          "Name": "model curves",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the actual sketch lines of a sketch based element (floor, ceiling, modified wall, etc.) . You can optionally fetch the matching model curves, however this might prove comptationally heavy on larger data sets. Does not work with elements from linked files."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "22341d1f73a847ccb7c07249bbae9538",
+      "End": "03609fd5e67b4e1c95a7f9d5c2f229ce",
+      "Id": "6908c13968c848dea4b6603b640f2983"
+    },
+    {
+      "Start": "4151672d6bda4654ba251482ee656a4b",
+      "End": "f7f82748488d40028b610466f17ea60f",
+      "Id": "6fdcdcfa54a9489cab8d9b39af00a20b"
+    },
+    {
+      "Start": "d68af6d7573143f4837f307c1807eaaa",
+      "End": "2eca36a4542743f5ac2591944c188803",
+      "Id": "86bfb0d945c241cdaeb11f11feb0e160"
+    }
+  ],
+  "Dependencies": [
+    "94050ce4-e59f-4377-933d-16326991c630"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "spring nodes",
+      "Version": "204.1.0",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "74ffbe8b8f34401cbf72d7f440729368"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.843890223268062,
+      "EyeY": 8.6407603391074357,
+      "EyeZ": 21.556146019144659,
+      "LookX": -18.797525439027339,
+      "LookY": -8.6407603391074357,
+      "LookZ": -26.538255088968878,
+      "UpX": -0.025212400345699094,
+      "UpY": 0.9990482215818578,
+      "UpZ": -0.035594744316196004
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "14ae4221ab664e2592340567e3707f17",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1881.0760676096411,
+        "Y": -513.91816193699367
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Select Topo",
+        "Id": "ea5565b68dda4e40a51613788d18c0f4",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1200.0691335750319,
+        "Y": -510.94530481687855
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Select Floor",
+        "Id": "7d06d20a28f24d56a0b3b13bf92936b2",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1199.7032663622329,
+        "Y": -653.98111633324186
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ꟿ Collect.ElementSketch",
+        "Id": "74ffbe8b8f34401cbf72d7f440729368",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1438.6772911970895,
+        "Y": -657.42311254672143
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "873ef0e6c5ce44179b718971dadac88f",
+        "Title": "Create Subregion from Floor Sketch",
+        "Nodes": [
+          "14ae4221ab664e2592340567e3707f17",
+          "74ffbe8b8f34401cbf72d7f440729368"
+        ],
+        "Left": 1428.6772911970895,
+        "Top": -710.42311254672143,
+        "Width": 586.39877641255157,
+        "Height": 315.50495060972776,
+        "FontSize": 36.0,
+        "InitialTop": -657.42311254672143,
+        "InitialHeight": 352.03045478927095,
+        "TextblockHeight": 43.0,
+        "Background": "#FFFFC999"
+      },
+      {
+        "Id": "dad9282fa8da4361bbf3ebd6c2d9314b",
+        "Title": "Inputs",
+        "Nodes": [
+          "7d06d20a28f24d56a0b3b13bf92936b2",
+          "ea5565b68dda4e40a51613788d18c0f4"
+        ],
+        "Left": 1189.7032663622329,
+        "Top": -706.98111633324186,
+        "Width": 189.365867212799,
+        "Height": 315.03581151636331,
+        "FontSize": 36.0,
+        "InitialTop": -653.98111633324186,
+        "InitialHeight": 262.095575885775,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": -1147.8216581263066,
+    "Y": 1027.4721304542268,
+    "Zoom": 1.0494696650272657
+  }
+}
