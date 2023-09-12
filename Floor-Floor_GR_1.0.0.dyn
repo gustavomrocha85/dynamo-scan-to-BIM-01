@@ -1,0 +1,274 @@
+{
+  "Uuid": "08bef05e-e66f-491f-bb7b-5415bbc53492",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Floor-Floor_GR_1.0.0",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "b9952b1a-561c-49ff-9c09-67a631b9be77-000609b3"
+      ],
+      "Id": "41603567c19c4eac9b78fdca84f1b6f7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f7877eddb4ae4696aa69cc65f8a80a97",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "b9952b1a-561c-49ff-9c09-67a631b9be77-0005a7a1"
+      ],
+      "Id": "bbe7944f464e4f8280331eee79a46f10",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "309c543e3945497a88aab28a7ad3bb86",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Topography.Points",
+      "Id": "08bda252e90f459086752084a4685677",
+      "Inputs": [
+        {
+          "Id": "7fb80d5c6dba4dd0aa3d23415d2dba94",
+          "Name": "topography",
+          "Description": "Revit.Elements.Topography",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d9cc05d842b04bff817dbc100461c81d",
+          "Name": "Point[]",
+          "Description": "Point[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The set of points from which this TopographySurface is constructed.\n\nTopography.Points: Point[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "43aab40b-2645-4c59-b2e8-bf17b48b5fb9",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "f720325d1b8e47d7b25a5a7c4266ef89",
+      "Inputs": [
+        {
+          "Id": "4d40ff3f96474963bd1a6a1549c08398",
+          "Name": "points",
+          "Description": "Point[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4c5053a0bef94a039201525956d03dbf",
+          "Name": "floor",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0eba9958127d4985a40f5f5c0f35c989",
+          "Name": "floor",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Transform a slab shape based on a list of XYZs. PLEASE NOTE: Will reset any previous edits on the slab shape."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "f7877eddb4ae4696aa69cc65f8a80a97",
+      "End": "7fb80d5c6dba4dd0aa3d23415d2dba94",
+      "Id": "c3ba5047c635426f832b103149c0a5b4"
+    },
+    {
+      "Start": "309c543e3945497a88aab28a7ad3bb86",
+      "End": "4c5053a0bef94a039201525956d03dbf",
+      "Id": "e53c3beb71214d8cb9e4f16f832c997a"
+    },
+    {
+      "Start": "d9cc05d842b04bff817dbc100461c81d",
+      "End": "4d40ff3f96474963bd1a6a1549c08398",
+      "Id": "c6294252e4da41df9c9210e505ba9994"
+    }
+  ],
+  "Dependencies": [
+    "43aab40b-2645-4c59-b2e8-bf17b48b5fb9"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Clockwork for Dynamo 1.x",
+      "Version": "1.0.2",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "f720325d1b8e47d7b25a5a7c4266ef89"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -4.171801631908453,
+      "EyeY": 14.47828896913348,
+      "EyeZ": -8.366712269586321,
+      "LookX": 0.4056504315280014,
+      "LookY": -0.27256925809404287,
+      "LookZ": -0.18752815671586909,
+      "UpX": 0.29551809547489821,
+      "UpY": 0.94551857559931807,
+      "UpZ": -0.13661507399817993
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Seleção sub-região",
+        "Id": "41603567c19c4eac9b78fdca84f1b6f7",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 139.76960602270282,
+        "Y": 33.083383652764837
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Seleção do piso",
+        "Id": "bbe7944f464e4f8280331eee79a46f10",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 137.75540738111644,
+        "Y": 178.25567617331848
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Topography.Points",
+        "Id": "08bda252e90f459086752084a4685677",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 420.623800578247,
+        "Y": 122.54724896457708
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Floor.SlabShapeByPoints",
+        "Id": "f720325d1b8e47d7b25a5a7c4266ef89",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 736.860509895693,
+        "Y": 174.69594784129595
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "c96a03ba767146efb937d22dbabc4c5b",
+        "Title": "Inputs",
+        "Nodes": [
+          "41603567c19c4eac9b78fdca84f1b6f7",
+          "bbe7944f464e4f8280331eee79a46f10"
+        ],
+        "Left": 127.75540738111644,
+        "Top": -5.9166163472351627,
+        "Width": 191.01419864158638,
+        "Height": 303.17229252055364,
+        "FontSize": 24.0,
+        "InitialTop": 33.083383652764837,
+        "InitialHeight": 290.17229252055364,
+        "TextblockHeight": 29.0,
+        "Background": "#FFB5B5B5"
+      },
+      {
+        "Id": "5968be8d025144ecb52bec4b253eeee3",
+        "Title": "Revit Family output",
+        "Nodes": [
+          "f720325d1b8e47d7b25a5a7c4266ef89"
+        ],
+        "Left": 726.860509895693,
+        "Top": 135.69594784129595,
+        "Width": 206.0,
+        "Height": 158.0,
+        "FontSize": 24.0,
+        "InitialTop": 174.69594784129595,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 29.0,
+        "Background": "#FFFFAA45"
+      },
+      {
+        "Id": "7766e83e7cf44f348119163ad25e71ff",
+        "Title": "Points to Topography",
+        "Nodes": [
+          "08bda252e90f459086752084a4685677"
+        ],
+        "Left": 410.623800578247,
+        "Top": 83.547248964577079,
+        "Width": 249.0,
+        "Height": 132.0,
+        "FontSize": 24.0,
+        "InitialTop": 122.54724896457708,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 29.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": -66.381471653238236,
+    "Y": 253.5074783516821,
+    "Zoom": 0.86959772307597649
+  }
+}

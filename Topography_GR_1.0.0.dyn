@@ -1,0 +1,590 @@
+{
+  "Uuid": "9aebff0d-d4af-4031-a7e2-a7798e6adb7e",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Topography_GR_1.0.0",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "22fa561af6f04ee6af2fff99e955832d",
+      "Name": "Number of points",
+      "Type": "number",
+      "Value": "100000",
+      "MaximumValue": 200000.0,
+      "MinimumValue": 1000.0,
+      "StepValue": 100.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "a90b82024f3d46d3bd818db8d96eff26",
+      "Name": "Point Cloud reduction",
+      "Type": "number",
+      "Value": "90",
+      "MaximumValue": 100.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "ba6aa30306cf44999e84e639580dbc95",
+      "Name": "Topography.ByPoints",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Create a topography surface from a list of points.\n\nTopography.ByPoints (points: Point[]): Topography"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Topography.ByPoints@Autodesk.DesignScript.Geometry.Point[]",
+      "Id": "ba6aa30306cf44999e84e639580dbc95",
+      "Inputs": [
+        {
+          "Id": "5445f50dbb96400e8036f26e8d852989",
+          "Name": "points",
+          "Description": "The points which define the topography surface.\n\nPoint[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f938a39d25e04919b23db7771912974e",
+          "Name": "Topography",
+          "Description": "A topography surface through the specified points.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Create a topography surface from a list of points.\n\nTopography.ByPoints (points: Point[]): Topography"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.TakeEveryNthItem@var[]..[],int,int",
+      "Id": "49a5619d397147439b2963e1f143137e",
+      "Inputs": [
+        {
+          "Id": "fae7bd13eb1a4e62829f08c595c7d6e0",
+          "Name": "list",
+          "Description": "List to take items from.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": true,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "be9adc3a179d4e1dbfc819a03cba8730",
+          "Name": "n",
+          "Description": "Indices that are multiples of this number (after the offset) will be fetched.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d7f96d503d00454dbad2641e1bc3f322",
+          "Name": "offset",
+          "Description": "Amount of items to be ignored from the start of the list.\n\nint\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d962efb8fd1f431092f7223a13673f10",
+          "Name": "items",
+          "Description": "Items from the list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Fetches items from the given list at indices that are multiples of the given value, after the given offset.\n\nList.TakeEveryNthItem (list: var[]..[], n: int, offset: int = 0): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "bb7beb85-77ab-4462-9a8b-4e08c055dac0",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "8f30ff5348e64066960cd11547dd7d14",
+      "Inputs": [
+        {
+          "Id": "52cfc45269984a7c8f832709d9181058",
+          "Name": "PointSampleSize",
+          "Description": "This is the number of points to take\nfrom within the selected region.\n\nPlease note that the actual number of\nPoints output may vary from this\nnumber if a Sectionbox has been used.\n\nint\nDefault value : 1000",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "236eb98f6e18491bbe60feacdf7399e5",
+          "Name": "Refresh",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "75a3825b23f347e8888e10f7e8e4f96b",
+          "Name": "Troubleshooting",
+          "Description": " !!! Not an Input !!! \n\n- Troubleshooting -\nIf no points are being returned when trying \nto select a region in a 3D view, a forced \nrefresh of the Active View plane may be necessary.\n\nTo do this perform the following steps:\n1 - Select the Pointcloud Instance\n2 - Use the Zoom-All command, or click a corner of the Viewcube\n3 - Refresh the Node and attempt a region selection\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3dc0f6cd273942a89f820faf911a620a",
+          "Name": "Points",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "970a7120be0341bda4aad4f15f8576d3",
+          "Name": "BestFitPlane",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "(Sastrugi_Pointcloud_Geometry) This node allows users to select a specific number of Pointcloud Points by creating a selection region in the Active View."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "4c7a56fd3db14294ac610f0f25e16b72",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "96c5a5afdf7c4143a51d4cfa97832266",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Count@var[]..[]",
+      "Id": "10e9afad71d34a2391eba8719a07d946",
+      "Inputs": [
+        {
+          "Id": "d6e01e1428d4415fbf0704e5ddb6f9fd",
+          "Name": "list",
+          "Description": "List to get the item count of.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": true,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c7986387870e45cc94ea7cdb9b9d0b55",
+          "Name": "count",
+          "Description": "List length.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Returns the number of items stored in the given list.\n\nList.Count (list: var[]..[]): int"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "z=x-y*x;\nx/z;",
+      "Id": "cabb859a6c194df9956972788b3ae7e6",
+      "Inputs": [
+        {
+          "Id": "7b0d4d1c81d840f6bf3e27228cd6f0fc",
+          "Name": "x",
+          "Description": "x",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e2dd4d4221674f57a9b9ae0f20e948ea",
+          "Name": "y",
+          "Description": "y",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6bc700aa73b049e5a3bef7708ef286d2",
+          "Name": "",
+          "Description": "z",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f8b963a66198423987e140a18f2d3229",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "x=y*0.01;",
+      "Id": "b1e1f89dd29742f6831f2f4830d74acc",
+      "Inputs": [
+        {
+          "Id": "07a10978cc894c08807663559e3c9335",
+          "Name": "y",
+          "Description": "y",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6914c6bb7d7a4415829b39aebbd95525",
+          "Name": "",
+          "Description": "x",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 200000.0,
+      "MinimumValue": 1000.0,
+      "StepValue": 100.0,
+      "InputValue": 100000.0,
+      "Id": "22fa561af6f04ee6af2fff99e955832d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "fbf52b8dfff94af6925ac6e8dd562d23",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 100.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
+      "InputValue": 90.0,
+      "Id": "a90b82024f3d46d3bd818db8d96eff26",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e1d8508e179b4018ac89589aea5c0a74",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "d962efb8fd1f431092f7223a13673f10",
+      "End": "5445f50dbb96400e8036f26e8d852989",
+      "Id": "b355a36aead84f399b3f5c7cb4275e08"
+    },
+    {
+      "Start": "3dc0f6cd273942a89f820faf911a620a",
+      "End": "fae7bd13eb1a4e62829f08c595c7d6e0",
+      "Id": "8c548af1459f47a39547363bd09c8bc9"
+    },
+    {
+      "Start": "3dc0f6cd273942a89f820faf911a620a",
+      "End": "d6e01e1428d4415fbf0704e5ddb6f9fd",
+      "Id": "c7effb847e8649cf971a25a2e8bde2a0"
+    },
+    {
+      "Start": "96c5a5afdf7c4143a51d4cfa97832266",
+      "End": "236eb98f6e18491bbe60feacdf7399e5",
+      "Id": "58bede858cf548728b3797197499cded"
+    },
+    {
+      "Start": "c7986387870e45cc94ea7cdb9b9d0b55",
+      "End": "7b0d4d1c81d840f6bf3e27228cd6f0fc",
+      "Id": "abd07336d59a40efb4a406252a8fce13"
+    },
+    {
+      "Start": "f8b963a66198423987e140a18f2d3229",
+      "End": "be9adc3a179d4e1dbfc819a03cba8730",
+      "Id": "5978c87d330e49b09e06109098d0c6d8"
+    },
+    {
+      "Start": "6914c6bb7d7a4415829b39aebbd95525",
+      "End": "e2dd4d4221674f57a9b9ae0f20e948ea",
+      "Id": "3885812a3ce1434e9662b86669f5c20e"
+    },
+    {
+      "Start": "fbf52b8dfff94af6925ac6e8dd562d23",
+      "End": "52cfc45269984a7c8f832709d9181058",
+      "Id": "e777582f066f4760a9e182d184f986b1"
+    },
+    {
+      "Start": "e1d8508e179b4018ac89589aea5c0a74",
+      "End": "07a10978cc894c08807663559e3c9335",
+      "Id": "f946a1bbd64f4ee5a461de77ae66a429"
+    }
+  ],
+  "Dependencies": [
+    "bb7beb85-77ab-4462-9a8b-4e08c055dac0"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Sastrugi",
+      "Version": "2.0.0",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "8f30ff5348e64066960cd11547dd7d14"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 100.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -49.035699051302423,
+      "EyeY": 153.49473791374109,
+      "EyeZ": 129.84206603030592,
+      "LookX": 49.035699051302423,
+      "LookY": -153.49473791374109,
+      "LookZ": -129.84206603030592,
+      "UpX": 0.20516309331693508,
+      "UpY": 0.81411551835632934,
+      "UpZ": -0.54325318950932278
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "Topography.ByPoints",
+        "Id": "ba6aa30306cf44999e84e639580dbc95",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "X": 915.39055553523485,
+        "Y": 1131.1518461795811
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "List.TakeEveryNthItem",
+        "Id": "49a5619d397147439b2963e1f143137e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 625.698359831071,
+        "Y": 1263.2482376460293
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "❄_Pointcloud Select Points in View",
+        "Id": "8f30ff5348e64066960cd11547dd7d14",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -135.00398223747447,
+        "Y": 884.75742715188812
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "4c7a56fd3db14294ac610f0f25e16b72",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -334.71259860621916,
+        "Y": 1032.4092084101665
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Count",
+        "Id": "10e9afad71d34a2391eba8719a07d946",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 217.82913435641967,
+        "Y": 1369.8709893325474
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "cabb859a6c194df9956972788b3ae7e6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 460.45624566964239,
+        "Y": 1347.4761145390671
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "b1e1f89dd29742f6831f2f4830d74acc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 256.75116138226554,
+        "Y": 1501.4080420521734
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number of points",
+        "Id": "22fa561af6f04ee6af2fff99e955832d",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -498.79318277001221,
+        "Y": 913.72849188991074
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Point Cloud reduction",
+        "Id": "a90b82024f3d46d3bd818db8d96eff26",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -115.90303494851764,
+        "Y": 1480.6356617474203
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "86b55bb697134eceb32fbb0949733022",
+        "Title": "Point Cloud Selection",
+        "Nodes": [
+          "8f30ff5348e64066960cd11547dd7d14",
+          "4c7a56fd3db14294ac610f0f25e16b72",
+          "22fa561af6f04ee6af2fff99e955832d"
+        ],
+        "Left": -508.79318277001221,
+        "Top": 816.75742715188812,
+        "Width": 677.78920053253773,
+        "Height": 283.65178125827833,
+        "FontSize": 48.0,
+        "InitialTop": 884.75742715188812,
+        "InitialHeight": 292.65178125827833,
+        "TextblockHeight": 58.0,
+        "Background": "#FFA4E1FF"
+      },
+      {
+        "Id": "739461f8bcfe40e6ab446c0185ae56c4",
+        "Title": "Point Cloud reduction",
+        "Nodes": [
+          "49a5619d397147439b2963e1f143137e",
+          "10e9afad71d34a2391eba8719a07d946",
+          "cabb859a6c194df9956972788b3ae7e6",
+          "b1e1f89dd29742f6831f2f4830d74acc",
+          "a90b82024f3d46d3bd818db8d96eff26"
+        ],
+        "Left": -125.90303494851764,
+        "Top": 1195.2482376460293,
+        "Width": 948.60139477958865,
+        "Height": 399.15980440614408,
+        "FontSize": 48.0,
+        "InitialTop": 1263.2482376460293,
+        "InitialHeight": 383.15980440614408,
+        "TextblockHeight": 58.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "91bb2688c3df45c6b9d19cd3ea52e36f",
+        "Title": "Toposurface",
+        "Nodes": [
+          "ba6aa30306cf44999e84e639580dbc95"
+        ],
+        "Left": 905.39055553523485,
+        "Top": 1063.1518461795811,
+        "Width": 265.87,
+        "Height": 161.0,
+        "FontSize": 48.0,
+        "InitialTop": 1131.1518461795811,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 58.0,
+        "Background": "#FFFFAA45"
+      }
+    ],
+    "X": 388.1367143838263,
+    "Y": -430.14127078516429,
+    "Zoom": 0.686425677629081
+  }
+}
